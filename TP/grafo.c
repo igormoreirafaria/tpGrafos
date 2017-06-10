@@ -9,6 +9,21 @@ typedef struct{
 
 }Grafo;
 
+int verificaGrau(Grafo * grafo, int vertice){
+	int grau = 0;
+
+	for(int j=vertice, i=0;i<grafo->numVertice;i++){
+		if(grafo->adj[i][j]>0){
+			grau = grau + 1;
+		}
+	}
+
+
+
+
+	return grau;
+}
+
 void imprimeGrafo(Grafo *grafo){
 
 	for(int i = 0; i<(grafo->numVertice);i++){
@@ -21,6 +36,8 @@ void imprimeGrafo(Grafo *grafo){
 
 void insereAresta(Grafo *grafo, int verticeA, int verticeB, int peso){
 	grafo->adj[verticeA][verticeB] = peso;
+	grafo->adj[verticeB][verticeA] = peso;
+
 }
 
 Grafo criaGrafo(int vertice, int aresta){
@@ -56,7 +73,11 @@ int main(){
 	if(grafo==NULL){
 		printf("Grafo não criado\n");
 	}
-	imprimeGrafo(grafo);
-	//insereAresta(grafo,0,0,10);
+	
+	
+	
+	
+	// imprimeGrafo(grafo);
+	// verificaGrau(grafo,3);
 	return 0;
 }
