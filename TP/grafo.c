@@ -10,12 +10,19 @@ typedef struct{
 }Grafo;
 
 void imprimeGrafo(Grafo *grafo){
-	for(int i = 0; i<grafo->numVertice;i++){
-		for(int j=0;j<grafo->numVertice;j++){
+
+	for(int i = 0; i<(grafo->numVertice);i++){
+		for(int j=0;j<(grafo->numVertice);j++){
 			printf("%d ", grafo->adj[i][j]);
 		}
 		printf("\n");
 	}
+}
+Grafo criaGrafo(int vertice, int aresta){
+	Grafo *grafo;
+	grafo = malloc(sizeof(grafo));
+	grafo->numVertice = vertice;
+	grafo->numAresta = aresta;
 	grafo->adj = malloc(vertice*sizeof(int*));
 	for(int i=0;i<vertice;i++){
 		grafo->adj[i] = malloc(vertice*sizeof(int));
