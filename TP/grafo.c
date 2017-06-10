@@ -34,7 +34,7 @@ void verificaGrau(Grafo *grafo){
 		grafo->adj[i][0].grau = grau;
 		grau = 0;
 	}
-	
+
 }
 
 void imprimeGrafo(Grafo *grafo){
@@ -58,12 +58,12 @@ Grafo criaGrafo(int vertice, int aresta){
 	grafo = malloc(sizeof(grafo));
 	grafo->numVertice = vertice;
 	grafo->numAresta = aresta;
-	grafo->adj = malloc(vertice*sizeof(ADJ*));
+	grafo->adj = malloc((vertice)*sizeof(ADJ*));
 	for(int i=0;i<vertice;i++){
-		grafo->adj[i] = malloc(vertice*sizeof(ADJ));
+		grafo->adj[i] = malloc((vertice)*sizeof(ADJ));
 	}
-	for(int i = 0; i<vertice;i++){
-		for (int j = 0; j < vertice; j++){
+	for(int i = 0; i<(vertice);i++){
+		for (int j = 0; j < (vertice); j++){
 			grafo->adj[i][j].peso = 0;
 			grafo->adj[i][j].grau = 0;
 			grafo->adj[i][j].cor = malloc(sizeof(strlen("nenhuma")));
@@ -71,6 +71,58 @@ Grafo criaGrafo(int vertice, int aresta){
 		}
 	}
 	return *grafo;
+}
+
+int eh_solucao(Grafo *G, int *tabela){
+
+	for(int i=0;i<G->numVertice;i++){
+		for(int j=0;j<G->numVertice;j++){
+			if(G->adj[i][j].peso == 1){
+				if(tabela[i] == tabela[j]){
+					printf("\n");
+					for(int i=0;i<G->numVertice;i++) printf("%d", tabela[i]);
+					return 0;
+				}
+			}
+		}
+	}
+	printf("\n solution ");
+	for(int i=0;i<G->numVertice;i++) printf("%d", tabela[i]);
+		getchar();
+	return 0;
+}
+
+void bakctracking(Grafo *G){;
+	int *cor = malloc(sizeof(int)*G->numVertice);
+	int i=0, j=0, k=0;
+	int *tabela = malloc(sizeof(int) * G->numVertice );
+	int cont=0;
+	for(i=0;i<G->numVertice;i++){
+		cor[i]=i;
+		tabela[i]= 0;
+	}
+	i=G->numVertice - 1;
+	j=G->numVertice - 2;
+	while(!eh_solucao(G, tabela)){
+		cont++;
+		tabela[i] = cor[k++];
+		if(k == G->numVertice ){
+			i=j;
+			tabela[i]++;
+			k=0;
+			if(tabela[j] == 4){
+				tabela[j]=0;
+				j--;
+			}
+			if(j==-1) break;
+			continue;
+		}
+		if(i < G->numVertice-1){
+			i++;
+		}
+	}
+	printf("cont %d", cont);
+	getchar();
 }
 
 
@@ -81,7 +133,7 @@ void leitura(Grafo *G){
 	leitura = malloc(sizeof(char)*100);
 	while(!feof(arq)){
 		fgets(leitura, 2, arq);
-		
+
 		G->adj[i][j].peso = atoi(leitura);
 		j++;
 		if(j == 9){
@@ -116,18 +168,20 @@ int main(){
 		printf("Grafo não criado\n");
 	}
 
-	
-	// insereAresta(grafo,3,0,1);
-	// insereAresta(grafo,0,2,1);
-	// insereAresta(grafo,2,4,1);
-	// insereAresta(grafo,1,3,1);
-	// insereAresta(grafo,2,3,1);
-	
+
+	 insereAresta(grafo,0,1,1);
+	 insereAresta(grafo,0,2,1);
+	 insereAresta(grafo,0,3,1);
+	 insereAresta(grafo,1,2,1);
+	 insereAresta(grafo,1,3,1);
+	 insereAresta(grafo,2,3,1);
 
 	imprimeGrafo(grafo);
 
+	bakctracking(grafo);
+
 	printf("\n");
-	leitura(grafo);
+	// leitura(grafo);
 	verificaGrau(grafo);
 	//insereAresta(grafo,0,0,10);
 	// imprimeGrafo(grafo);
