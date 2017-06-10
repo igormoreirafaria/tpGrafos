@@ -16,7 +16,10 @@ void imprimeGrafo(Grafo *grafo){
 		}
 		printf("\n");
 	}
-	grafo->adj = malloc(vertice*sizeof(int*));
+}
+
+void cria_grafo (int vertice, int aresta) {
+	grafo->adj = malloc(vertice*sizeof(int));
 	for(int i=0;i<vertice;i++){
 		grafo->adj[i] = malloc(vertice*sizeof(int));
 	}
