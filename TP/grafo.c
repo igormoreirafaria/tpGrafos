@@ -9,6 +9,21 @@ typedef struct{
 
 }Grafo;
 
+int verificaGrau(Grafo * grafo, int vertice){
+	int grau = 0;
+
+	for(int j=vertice, i=0;i<grafo->numVertice;i++){
+		if(grafo->adj[i][j]>0){
+			grau = grau + 1;
+		}
+	}
+
+
+
+
+	return grau;
+}
+
 void imprimeGrafo(Grafo *grafo){
 
 	for(int i = 0; i<(grafo->numVertice);i++){
@@ -21,9 +36,11 @@ void imprimeGrafo(Grafo *grafo){
 
 void insereAresta(Grafo *grafo, int verticeA, int verticeB, int peso){
 	grafo->adj[verticeA][verticeB] = peso;
+	grafo->adj[verticeB][verticeA] = peso;
+
 }
 
-Grafo criaGrafo(int vertice, int aresta){
+Grafo *criaGrafo(int vertice, int aresta){
 	Grafo *grafo;
 	grafo = malloc(sizeof(grafo));
 	grafo->numVertice = vertice;
@@ -37,18 +54,19 @@ Grafo criaGrafo(int vertice, int aresta){
 			grafo->adj[i][j] = 0;
 		}
 	}
-	return *grafo;
+	return grafo;
 }
 
 
 void leitura(Grafo **G){
-	int i=0, j=0, leitura;
+	int i=0, j=0;
+	char *leitura;
 	FILE *arq = fopen("sudoku.txt", "r");
+	leitura = malloc(sizeof(char)*100);
 	while(!feof(arq)){
-
-		fscanf(arq, "%d", &leitura);
-		printf("%d\n", leitura);
-		(*G)->adj[i][j] = leitura;
+		fgets(leitura, 2, arq);
+		printf("%s\n", leitura);
+		(*G)->adj[i][j] = atoi(leitura);
 		j++;
 		if(j == 9){
 			j=0;
@@ -77,7 +95,7 @@ int main(){
 	scanf("%d", &aresta);
 	printf("\n");
 	Grafo *grafo;
-	*grafo = criaGrafo(vertice, aresta);
+	grafo = criaGrafo(vertice, aresta);
 	if(grafo==NULL){
 		printf("Grafo não criado\n");
 	}
@@ -86,5 +104,8 @@ int main(){
 	printf("\n");
 	leitura(&grafo);
 	//insereAresta(grafo,0,0,10);
+
+	// imprimeGrafo(grafo);
+	// verificaGrau(grafo,3);
 	return 0;
 }
