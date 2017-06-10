@@ -1,4 +1,6 @@
-main:	grafo.c
+grafo:	grafo.c
 	gcc	grafo.c	-o	grafo
 clear:
-	rm -f main
+	rm -f grafo
+run:
+	./grafo
