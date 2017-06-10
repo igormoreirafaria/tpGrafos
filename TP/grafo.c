@@ -18,6 +18,11 @@ void imprimeGrafo(Grafo *grafo){
 		printf("\n");
 	}
 }
+
+void insereAresta(Grafo *grafo, int verticeA, int verticeB, int peso){
+	grafo->adj[verticeA][verticeB] = peso;
+}
+
 Grafo criaGrafo(int vertice, int aresta){
 	Grafo *grafo;
 	grafo = malloc(sizeof(grafo));
@@ -52,5 +57,6 @@ int main(){
 		printf("Grafo não criado\n");
 	}
 	imprimeGrafo(grafo);
+	//insereAresta(grafo,0,0,10);
 	return 0;
 }
