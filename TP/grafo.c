@@ -40,6 +40,31 @@ Grafo criaGrafo(int vertice, int aresta){
 	return *grafo;
 }
 
+
+void leitura(Grafo **G){
+	int i=0, j=0, leitura;
+	FILE *arq = fopen("sudoku.txt", "r");
+	while(!feof(arq)){
+
+		fscanf(arq, "%d", &leitura);
+		printf("%d\n", leitura);
+		(*G)->adj[i][j] = leitura;
+		j++;
+		if(j == 9){
+			j=0;
+			i++;
+		}
+
+		if(i==9){
+			break;
+		}
+	}
+
+	imprimeGrafo(*G);
+
+	fclose(arq);
+}
+
 int main(){
 	int vertice;
 	int aresta;
@@ -57,6 +82,9 @@ int main(){
 		printf("Grafo não criado\n");
 	}
 	imprimeGrafo(grafo);
+
+	printf("\n");
+	leitura(&grafo);
 	//insereAresta(grafo,0,0,10);
 	return 0;
 }
