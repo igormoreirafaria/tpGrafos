@@ -1,5 +1,5 @@
 grafo:	grafo.c
-	gcc	grafo.c	-o	grafo
+	gcc	grafo.c	-Wall	 -o	grafo	-g
 clear:
 	rm -f grafo
 run:

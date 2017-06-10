@@ -73,6 +73,32 @@ Grafo criaGrafo(int vertice, int aresta){
 	return *grafo;
 }
 
+
+void leitura(Grafo *G){
+	int i=0, j=0;
+	char *leitura;
+	FILE *arq = fopen("sudoku.txt", "r");
+	leitura = malloc(sizeof(char)*100);
+	while(!feof(arq)){
+		fgets(leitura, 2, arq);
+		
+		G->adj[i][j].peso = atoi(leitura);
+		j++;
+		if(j == 9){
+			j=0;
+			i++;
+		}
+
+		if(i==9){
+			break;
+		}
+	}
+
+	imprimeGrafo(G);
+
+	fclose(arq);
+}
+
 int main(){
 	int vertice;
 	int aresta;
@@ -89,6 +115,7 @@ int main(){
 	if(grafo==NULL){
 		printf("Grafo não criado\n");
 	}
+
 	
 	// insereAresta(grafo,3,0,1);
 	// insereAresta(grafo,0,2,1);
@@ -96,10 +123,15 @@ int main(){
 	// insereAresta(grafo,1,3,1);
 	// insereAresta(grafo,2,3,1);
 	
-	// imprimeGrafo(grafo);
-	// verificaGrau(grafo);
 
-	// getGrau(grafo, 2);
+	imprimeGrafo(grafo);
+
+	printf("\n");
+	leitura(grafo);
+	verificaGrau(grafo);
+	//insereAresta(grafo,0,0,10);
+	// imprimeGrafo(grafo);
+	//printf("o vertice 3 possui grau %d\n", getGrau(grafo, 3));
 
 	return 0;
 }
