@@ -88,13 +88,13 @@ int eh_solucao(Grafo *G, int *tabela){
 	}
 	printf("\n solution ");
 	for(int i=0;i<G->numVertice;i++) printf("%d", tabela[i]);
-		getchar();
-	return 0;
+		//getchar();
+	return 1;
 }
 
 void bakctracking(Grafo *G){;
 	int *cor = malloc(sizeof(int)*G->numVertice);
-	int i=0, j=0, k=0;
+	int i=0, flag=1, k=0;
 	int *tabela = malloc(sizeof(int) * G->numVertice );
 	int cont=0;
 	for(i=0;i<G->numVertice;i++){
@@ -102,26 +102,21 @@ void bakctracking(Grafo *G){;
 		tabela[i]= 0;
 	}
 	i=G->numVertice - 1;
-	j=G->numVertice - 2;
-	while(!eh_solucao(G, tabela)){
+	//j=G->numVertice - 2;
+	while(flag == 1){
 		cont++;
-		tabela[i] = cor[k++];
-		if(k == G->numVertice ){
-			i=j;
-			tabela[i]++;
-			k=0;
-			if(tabela[j] == 4){
-				tabela[j]=0;
-				j--;
+			if(tabela[i]< G->numVertice){
+				tabela[i]++;
+				if(i!=( G->numVertice-1)) i++;
+			}else {
+				tabela[i]= 0;
+				i--;
 			}
-			if(j==-1) break;
-			continue;
-		}
-		if(i < G->numVertice-1){
-			i++;
-		}
+			if(eh_solucao(G, tabela)) {
+				break;
+			}
 	}
-	printf("cont %d", cont);
+	printf("cont %d %d " , cont, k);
 	getchar();
 }
 
