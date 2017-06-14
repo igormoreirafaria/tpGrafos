@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "hipergrafo"
 typedef struct{
 	int peso;
 	int grau;
@@ -107,7 +107,7 @@ void bakctracking(Grafo *G){;
 		cont++;
 			if(tabela[i]< G->numVertice){
 				tabela[i]++;
-				if(i!=( G->numVertice-1)) i++;
+				if(i!=( G->numVertice)) i++;
 			}else {
 				tabela[i]= 0;
 				i--;
