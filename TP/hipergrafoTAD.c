@@ -17,12 +17,35 @@ void inicia_grafo(Grafo **G, int num_arestas){
 }
 void criar_grafo(Grafo **G){
     int k=0;
+
+    // dependencias das colunas
     for(int i=0; i<9;i++){
         for(int j=0;j<9;j++){
             criar_dependencias(G, k, i+(9*j));
         }
         k++;
     }
+
+    // dependencias das linhas
+    for(int i=0; i<9;i++){
+        for(int j=0;j<9;j++){
+            criar_dependencias(G, k, j+(i*9));
+        }
+        k++;
+    }
+
+    for(int i=0;i<3;i++){
+       for (int p = 0; p < 3; p++){
+           for(int j=0;j<3;j++){
+                for(int l=0;l<3;l++){
+                    criar_dependencias(G, k, (l + (j*9) +(p*3) +((i*3)*9)));
+                }
+            }
+            k++;
+        }
+    }
+
+    // dependencias dos blocos
 
 }
 void criar_dependencias(Grafo **G, int i, int vertice){ // i == aresta
@@ -31,7 +54,6 @@ void criar_dependencias(Grafo **G, int i, int vertice){ // i == aresta
     for(int k=0;k<9;k++){
         if(list->vertices[k] == -1){
             list->vertices[k] = vertice;
-            printf("%d\n", list->vertices[k]);
             return;
         }
     }
@@ -53,13 +75,9 @@ int getPrimProx(Grafo *grafo, int r, int A, int *prim, int *prox){
     int i=0;
     for(int a=0; a<27;a++){
         for(int j = 0; j < 9; j++){
-
                 i = a + ( j * A );
-                printf("%d aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",i );
                 prox[i] = prim[grafo->lista[a].prox->vertices[j]];
                 prim[grafo->lista[a].prox->vertices[j]] = i;
-                printf("%d\n", prim[grafo->lista[a].prox->vertices[j]]);
-
         }
     }
     return 0;
@@ -77,14 +95,15 @@ int main (){
     getPrimProx(G, 9, 27, prim, prox);
     int aux, inicio, fim;
     for(int i=0;i<81;i++){
-        printf("%d\n", prim[i]);
-        inicio = prox[prim[i]];
-        fim = prox[inicio];
+        inicio = prim[i];
+        printf ("%d %d Vertice %d %d", prox[prim[i]], prox[prox[prim[i]]], i, inicio%27);
+        fim = prox[prim[i]];
         while(fim != -1){
-            aux = fim;
+            printf(" %d ", fim%27);
             fim = prox[fim];
         }
-        printf ("%d %d %d\n", i, inicio, aux);
+        printf("\n");
+
     }
     return 1;
 }
