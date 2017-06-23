@@ -120,9 +120,9 @@ void backtracking(Grafo *G, int *prim, int *prox){;
     //j=G->numVertice - 2;
     while(flag == 1){
         cont++;
-            if(tabela[i]< G->numVertice){
+            if(tabela[i]< 9){
                 tabela[i]++;
-                if(i!=( G->numVertice)) i++;
+                if(i!=( G->numVertice-1)) i++;
             }else {
                 tabela[i]= 0;
                 i--;
