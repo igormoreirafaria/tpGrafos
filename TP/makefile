@@ -1,8 +1,15 @@
-hiper:	hipergrafoTAD.c
-	gcc	hipergrafoTAD.c 	-Wall	-o	hiper 	-g
-grafo:	grafo.c
-	gcc	grafo.c	-Wall	 -o	grafo	-g
+MAINFILE :=	hipergrafoTAD
+MAINGRAFO:=	grafo
+COMPFLAGS := 	-Wall	-c
+LINKFLAGS := 	-o
+
+geral:
+	gcc	$(COMPFLAGS) 	*.c
+hiper:	geral
+	gcc	$(LINKFLAGS)	$(MAINFILE)	$(MAINFILE).c 	-g
+grafo:	geral
+	gc	$(LINKFLAGS)	$(MAINGRAFO)	$(GRAFOMAIN).c	-g
 clear:
-	rm -f grafo
+	rm -f	*.o	$(MAINFILE)	$(MAINGRAFO)	
 run:
-	./grafo
+	./$(MAINGRAFO)

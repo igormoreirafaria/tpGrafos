@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hipergrafo"
+//#include "hipergrafo"
 typedef struct{
 	int peso;
 	int grau;

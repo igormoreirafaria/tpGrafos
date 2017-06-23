@@ -6,6 +6,7 @@ void inicia_grafo(Grafo **G, int num_arestas){
     (*G) = malloc(sizeof(Grafo));
 
     (*G)->lista = malloc(sizeof(Node)*num_arestas);
+    (*G)->numVertice = 81;
 
     for(int i=0;i<27;i++){
         (*G)->lista[i].prox = malloc(sizeof(Node));
@@ -34,6 +35,7 @@ void criar_grafo(Grafo **G){
         k++;
     }
 
+    // dependencias dos blocos
     for(int i=0;i<3;i++){
        for (int p = 0; p < 3; p++){
            for(int j=0;j<3;j++){
@@ -44,9 +46,93 @@ void criar_grafo(Grafo **G){
             k++;
         }
     }
+}
 
-    // dependencias dos blocos
+int verificaDependencias(Grafo **G, int *prim, int* prox, int vertice1, int vertice2){
+        int *depV1, *depV2, inicio, fim;
+        depV1=malloc(3*sizeof(int));
+        depV2=malloc(3*sizeof(int));
+        int dp=0;
+        inicio = prim[vertice1];
+        //printf ("%d %d Vertice %d %d", prox[prim[i]], prox[prox[prim[i]]], i, inicio%27);
+        fim = prox[prim[vertice1]];
+        depV1[dp] = inicio%27;
+        dp++;
+        while(fim != -1){
+            //printf(" %d ", fim%27);
+            depV1[dp] = fim%27;
+            fim = prox[fim];
+            dp++;
+        }
+        dp=0;
+        inicio = prim[vertice2];
+        //printf ("%d %d Vertice %d %d", prox[prim[i]], prox[prox[prim[i]]], i, inicio%27);
+        fim = prox[prim[vertice2]];
+        depV2[dp] = inicio%27;
+        dp++;
+        while(fim != -1){
+            //printf(" %d ", fim%27);
+            depV2[dp] = fim%27;
+            fim = prox[fim];
+            dp++;
+        }
 
+        for(int i=0; i<3;i++){
+            for(int j=0;j<3;j++){
+                if(depV1[i] == depV2[j]){
+                    return 1;
+                }
+            }
+        }
+        return 0;
+}
+
+int eh_solucao(Grafo *G, int *tabela, int *prim, int *prox){
+
+    for(int i=0;i<G->numVertice;i++){
+        for(int j=0;j<G->numVertice;j++){
+            if((verificaDependencias(&G, prim, prox, i, j)) == 1){
+                if(tabela[i] == tabela[j]){
+                    printf("\n");
+                    for(int i=0;i<G->numVertice;i++) printf("%d", tabela[i]);
+                    return 0;
+                }
+            }
+        }
+    }
+    printf("\n solution ");
+    for(int i=0;i<G->numVertice;i++) printf("%d", tabela[i]);
+
+    return 1;
+}
+
+
+void backtracking(Grafo *G, int *prim, int *prox){;
+    int *cor = malloc(sizeof(int)*G->numVertice);
+    int i=0, flag=1, k=0;
+    int *tabela = malloc(sizeof(int) * G->numVertice );
+    int cont=0;
+    for(i=0;i<G->numVertice;i++){
+        cor[i]=i;
+        tabela[i]= 0;
+    }
+    i=G->numVertice - 1;
+    //j=G->numVertice - 2;
+    while(flag == 1){
+        cont++;
+            if(tabela[i]< G->numVertice){
+                tabela[i]++;
+                if(i!=( G->numVertice)) i++;
+            }else {
+                tabela[i]= 0;
+                i--;
+            }
+            if(eh_solucao(G, tabela, prim, prox)) {
+                break;
+            }
+    }
+    printf("cont %d %d " , cont, k);
+    getchar();
 }
 void criar_dependencias(Grafo **G, int i, int vertice){ // i == aresta
     Node *list = (*G)->lista[i].prox;
@@ -66,7 +152,7 @@ int verifica_conflitos(Grafo *G){
 int getPrimProx(Grafo *grafo, int r, int A, int *prim, int *prox){
 
     for(int i =0;i<81;i++){
-        prim[i]=-1;
+         prim[i]=-1;
     }
 
     for(int i =0;i<9*27;i++){
@@ -93,6 +179,7 @@ int main (){
 
     criar_grafo(&G);
     getPrimProx(G, 9, 27, prim, prox);
+
     int aux, inicio, fim;
     for(int i=0;i<81;i++){
         inicio = prim[i];
@@ -105,5 +192,7 @@ int main (){
         printf("\n");
 
     }
+
+    backtracking(G, prim, prox);
     return 1;
 }

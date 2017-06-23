@@ -1,6 +1,0 @@
-main:	gr.c
-	gcc	grafo.c	-o	grafo
-clear:
-	rm -f grafo
-run:
-	./grafo
